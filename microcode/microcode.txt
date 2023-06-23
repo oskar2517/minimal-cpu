@@ -1,0 +1,121 @@
+0: MCR; // Resets microcode offset
+1: BRZ; // Branches to immediate address zero
+2: SUB; // Configures ALU to perform subtraction
+3: LRO; // Loads output register from BUS
+4: CPC; // Increments program counter
+5: ERAM; // Puts content of MEMORY at current MAR address onto the BUS 
+6: LRAM; // Stores value from BUS as MAR address in MEMORY
+7: LM; // Loads MAR from BUS
+8: LPC; // Loads PC from BUS
+9: EPC; // Puts content of PC on BUS
+10: LR1; // Loads R1 from BUS
+11: ER1; // Puts content of R1 on BUS
+12: LR2; // Loads R2 from BUS
+13: BRS; // Branches to immediate address if signed
+14: ERT; // Puts content of ERT on BUS
+15: LIR; // Loads IR from BUS
+16: EIR; // Puts content of EIR on BUS
+
+assemblerConfig {
+    instructionWidth: 16;
+    opCodeWidth: 4;
+}
+
+proc fetch {
+    EPC, LM;
+    ERAM;
+    ERAM, LIR;
+    CPC;
+}
+
+proc reset {
+    MCR;
+}
+
+// Loads value at immediate address in MEMORY into R1
+ins ld {
+    inline fetch;
+    EIR, LM;
+    ERAM;
+    ERAM, LR1;
+    inline reset;
+}
+
+// Stores value in R1 at immediate address in MEMORY
+ins st {
+    inline fetch;
+    EIR, LM;
+    LRAM, ER1;
+    inline reset;
+}
+
+// Dereferences address and loads value into R1
+ins ldr {
+    inline fetch;
+    EIR, LM;
+    ERAM;
+    ERAM, LM;
+    ERAM;
+    ERAM, LR1;
+    inline reset;
+}
+
+// Dereferences address and stores value from R1
+ins str {
+    inline fetch;
+    EIR, LM;
+    ERAM;
+    ERAM, LM;
+    LRAM, ER1;
+    inline reset;
+}
+
+// Adds value at immediate address to R1
+ins add {
+    inline fetch;
+    EIR, LM;
+    ERAM;
+    ERAM, LR2;
+    ;
+    ERT, LR1;
+    inline reset;
+}
+
+// Subtracts value at immediate address from R1
+ins sub {
+    inline fetch;
+    EIR, LM;
+    ERAM;
+    ERAM, LR2;
+    SUB;
+    ERT, LR1;
+    inline reset;
+}
+
+// Unconditionally jumps to immediate address
+ins jmp {
+    inline fetch;
+    EIR, LPC;
+    inline reset;
+}
+
+// Branches to immediate address if zero
+ins brz {
+    inline fetch;
+    EIR, BRZ;
+    inline reset;
+}
+
+// branches to immediate address if signed
+ins brs {
+    inline fetch;
+    EIR, BRS;
+    inline reset;
+}
+
+// Loads content from R1 into RO
+ins mao {
+    inline fetch;
+    ER1, LRO;
+    inline reset;
+}
