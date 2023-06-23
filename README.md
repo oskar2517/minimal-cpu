@@ -53,6 +53,11 @@ iter:
     0
 ```
 
+## Video
+https://github.com/oskar2517/minimal-cpu/assets/12718920/e34e6197-9a74-4a32-b7f9-e43b96adf1f7
+
+
+
 ## Screenshots
 ![Screenshot](assets/screenshot.png)
 
