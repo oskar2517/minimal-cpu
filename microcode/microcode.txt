@@ -15,6 +15,7 @@
 14: ERT; // Puts content of ERT on BUS
 15: LIR; // Loads IR from BUS
 16: EIR; // Puts content of EIR on BUS
+17: REN; // Renders a pixel onto the screen
 
 assemblerConfig {
     instructionWidth: 16;
@@ -117,5 +118,12 @@ ins brs {
 ins mao {
     inline fetch;
     ER1, LRO;
+    inline reset;
+}
+
+// Renders a pixel from the BUS onto the screen
+ins ren {
+    inline fetch;
+    EIR, REN;
     inline reset;
 }
