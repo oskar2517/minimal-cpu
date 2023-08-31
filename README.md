@@ -1,10 +1,16 @@
 # Logisim CPU
 Implementation of a simple microcode-controlled 16-bit CPU using Logisim-evolution.
 
+## Bad Apple
+The CPU on this branch has been altered to have a screen. It can render arbitrary bitmap graphics (grayscale) and is especially well suited to run Bad Apple. Checkout [/bad_apple](bad_apple) for program files.
+
+https://github.com/oskar2517/minimal-cpu/assets/12718920/6861349e-1c50-4eb7-8b8b-b820f2c58bcd
+
 ## Instruction set
 Instructions are described in a custom-made high level language which can be compiled to a sequence of microcode operations. The source code for the default instruction set can be found in [microcode.txt](microcode/microcode.txt). Before it can be loaded into the sequencer's ROM chip, the source file has to be translated using the aforementioned compiler which can be found [here](https://github.com/oskar2517/microcode-compiler).
 
 Each instruction is 16-bit wide with the four most significant bits being used to store the opcode.
+
 ![Instruction](assets/instruction.png)
 
 ### Instructions
